@@ -51,24 +51,25 @@ public class CellularAutomata extends JPanel{
     }
     public void updateState(int currentRow, int[] rule){
         for (int i = 0; i < board.length; i++){
-            int one = board[currentRow][(((i - 1) % GRID_SIZE) + GRID_SIZE) % GRID_SIZE];
-            int two = board[currentRow][i];
-            int three = board[currentRow][(((i + 1) % GRID_SIZE) + GRID_SIZE) % GRID_SIZE];
 
-            if (one == 1 && two == 1 && three == 1) board[currentRow + 1][i] = rule[7];
-            if (one == 1 && two == 1 && three == 0) board[currentRow + 1][i] = rule[6];
-            if (one == 1 && two == 0 && three == 1) board[currentRow + 1][i] = rule[5];
-            if (one == 1 && two == 0 && three == 0) board[currentRow + 1][i] = rule[4];
-            if (one == 0 && two == 1 && three == 1) board[currentRow + 1][i] = rule[3];
-            if (one == 0 && two == 1 && three == 0) board[currentRow + 1][i] = rule[2];
-            if (one == 0 && two == 0 && three == 1) board[currentRow + 1][i] = rule[1];
-            if (one == 0 && two == 0 && three == 0) board[currentRow + 1][i] = rule[0];
+            int one = board[currentRow][(i - 1 + GRID_SIZE) % GRID_SIZE];
+            int two = board[currentRow][i];
+            int three = board[currentRow][(i + 1) % GRID_SIZE];
+
+            if (one == 1 && two == 1 && three == 1) board[currentRow + 1][i] = rule[0];
+            if (one == 1 && two == 1 && three == 0) board[currentRow + 1][i] = rule[1];
+            if (one == 1 && two == 0 && three == 1) board[currentRow + 1][i] = rule[2];
+            if (one == 1 && two == 0 && three == 0) board[currentRow + 1][i] = rule[3];
+            if (one == 0 && two == 1 && three == 1) board[currentRow + 1][i] = rule[4];
+            if (one == 0 && two == 1 && three == 0) board[currentRow + 1][i] = rule[5];
+            if (one == 0 && two == 0 && three == 1) board[currentRow + 1][i] = rule[6];
+            if (one == 0 && two == 0 && three == 0) board[currentRow + 1][i] = rule[7];
         }
     }
 
     public static int[] ruleToArray(int rule){
         int[] ruleArray = new int[8];
-        String ruleString = Integer.toBinaryString(rule);
+        String ruleString = String.format("%8s", Integer.toBinaryString(rule)).replace(' ', '0');
         for (int i = 0; i < ruleString.length(); i++){
             ruleArray[i] = (ruleString.charAt(i) - '0');
         }
@@ -80,6 +81,7 @@ public class CellularAutomata extends JPanel{
         }
         board[0][GRID_SIZE / 2] = 1;
     }
+
     public static void main(String[] args) throws InterruptedException {
         CellularAutomata panel = new CellularAutomata();
         resetBoard();
@@ -88,12 +90,11 @@ public class CellularAutomata extends JPanel{
             createGUI(panel);
             panel.redrawBoard(); // Update the display with the initial board
         });
-        int intRule = 30;
+        int intRule = 0;
 
         while (true) {
-            System.out.println(intRule);
-//            int intRule = (int) Math.floor(Math.random() * (255 + 1));
             int[] rule = CellularAutomata.ruleToArray(intRule);
+            System.out.println(intRule);
             for (int i = 0; i < GRID_SIZE - 1; i++){
                 panel.updateState(i, rule);
                 panel.redrawBoard();
