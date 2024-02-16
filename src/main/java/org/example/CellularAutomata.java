@@ -7,10 +7,10 @@ import java.awt.Graphics2D;
 import java.util.Arrays;
 
 public class CellularAutomata extends JPanel{
-    public static final int GRID_SIZE = 512;
+    public static final int GRID_SIZE = 1024;
     public static int[][] board = new int [GRID_SIZE][GRID_SIZE];
-    private static final int sceneLength = 1000;
-    private static final int sceneHeight = 700;
+    private static final int sceneLength = 1920;
+    private static final int sceneHeight = 1080;
 
     protected void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -105,7 +105,7 @@ public class CellularAutomata extends JPanel{
 //                panel.redrawBoard();
 //                Thread.sleep(15);
 //            }
-            intRule = (intRule + 1) % GRID_SIZE;
+            intRule = (intRule + 1 + 255) % 255;
         }
     }
 }
